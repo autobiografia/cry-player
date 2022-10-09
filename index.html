@@ -65,7 +65,7 @@ function showResult(str) {
     $.ajax({url: '/video?q=' + $("#q").val(), success:function(res){
 		res = JSON.parse(res);
 		
-		if(res.video_config_media == false) return alert("URL incorreto!");
+		if(res.video_config_media == false || res.video_config_media == "false") return alert("URL incorreto!");
 		
 		message = {
 			'video_config_media': [JSON.stringify(JSON.parse(res.video_config_media))],

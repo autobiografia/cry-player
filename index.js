@@ -1,12 +1,11 @@
 
-var cloudscraper = require('cloudscraper');
+const cloudscraper = require('cloudscraper');
 
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 9001;
 
 var cors = require('cors');
-
 
 var path = require('path');
 
@@ -27,15 +26,21 @@ app.get('/', (req, res) => {
 })
 app.get('/video', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin','*');
-	if(!req.query.q){
-		res.end(JSON.stringify({video_config_media:false}));
+	if(!req.query.q == false){
+		(async () => {
+			try {
+				const e = await cloudscraper.get(req.query.q)
+				.then(function(e) {
+					file = getStr(e, "vilos.config.media = ", ";") || false;
+					seila = JSON.stringify(JSON.parse(file)) || false;
+					res.end(JSON.stringify({video_config_media:seila}));
+				})
+			} catch (error) {
+				res.end(JSON.stringify({video_config_media:false}))
+			}
+		})();
 	}else {
-		e = cloudscraper.get(req.query.q);
-		e.then(function(e){
-			file = getStr(e, "vilos.config.media = ", ";") || false;
-			seila = JSON.stringify(JSON.parse(file)) || false;
-			res.end(JSON.stringify({video_config_media:seila}));
-		}).catch(function(e){res.end(JSON.stringify({video_config_media:false}))})
+		res.end(JSON.stringify({video_config_media:false}));
 	}
 });
 
