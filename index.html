@@ -46,7 +46,6 @@
 //		$("#q").html = res;
 //    }});
 //}
-let seila = "";
 
 const params = new URLSearchParams(window.location.search)
 if(params){
@@ -64,13 +63,12 @@ function showResult(str) {
 		window.location.replace(window.location.pathname + "?q=" + $("#q").val() + window.location.hash);
 	}
     $.ajax({url: '/video?q=' + $("#q").val(), success:function(res){
-		seila = "";
-		seila = JSON.parse(res);
+		res = JSON.parse(res);
 		
-		if(seila.video_config_media == false) return alert("URL incorreto!");
+		if(res.video_config_media == false) return alert("URL incorreto!");
 		
 		message = {
-			'video_config_media': [JSON.stringify(JSON.parse(seila.video_config_media))],
+			'video_config_media': [JSON.stringify(JSON.parse(res.video_config_media))],
 			'lang': 'ptBR',
 		};
 		
@@ -79,7 +77,6 @@ function showResult(str) {
 		addPlayer(element, message)
 	}});
 }
-
 
 function addPlayer(element, playerInfo, beta = true) {
   console.log("[CR Premium] Adicionando o jwplayer...");
