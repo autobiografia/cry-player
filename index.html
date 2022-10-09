@@ -1,0 +1,107 @@
+<html>
+	<head>
+		<title> Stream Player </title>
+	</head>
+<style>
+	body {
+		background-color: #010101; // 🌑
+		color: #f0ece2;
+	}
+	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+		color: #c2bfb8;
+		opacity: 1; /* Firefox */
+	}
+	.input {
+		outline: 0;
+		border: none;
+		padding: 10px;
+		background-color:  #1b1b1b;
+		color: #f0ece2;
+		width: 70%;
+	}
+	#button {
+		padding: 10px 20px;
+		border: none;
+		background-color: #1b1b1b;
+		color: #f0ece2;
+	}
+	span {
+		color:  #c2bfb8;
+	}
+</style>
+<body>
+ <center>
+	<span>made by heyo</span>
+	<br>
+	<input name="q" id="q" class="input" placeholder="Site" type="text"></input>
+	<input name="button" id="button" value="Enviar" onclick="showResult()" type="button"></input>
+	<br>
+	<br>
+ </center>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+<script>
+//function showResult(str) {
+//    $.ajax({url: '/search?q=' + $("#q").val(), success:function(res){
+//		$("#q").html = res;
+//    }});
+//}
+let seila = "";
+
+const params = new URLSearchParams(window.location.search)
+if(params){
+	if(params.get('q')){
+		$("#q").val(params.get('q'));
+		$("#button").click();
+	}
+}
+   let meta = document.createElement('meta');
+    meta.httpEquiv = "Content-Security-Policy";
+    meta.content = "upgrade-insecure-requests";
+    document.getElementsByTagName('head')[0].appendChild(meta);
+function showResult(str) {
+	if($("#frame").length){
+		window.location.replace(window.location.pathname + "?q=" + $("#q").val() + window.location.hash);
+	}
+    $.ajax({url: '/video?q=' + $("#q").val(), success:function(res){
+		seila = "";
+		seila = JSON.parse(res);
+		
+		if(seila.video_config_media == false) return alert("URL incorreto!");
+		
+		message = {
+			'video_config_media': [JSON.stringify(JSON.parse(seila.video_config_media))],
+			'lang': 'ptBR',
+		};
+		
+		console.log("[CR Old] Adicionando o jwplayer...");
+		element = document.getElementsByClassName('.element');
+		addPlayer(element, message)
+	}});
+}
+
+
+function addPlayer(element, playerInfo, beta = true) {
+  console.log("[CR Premium] Adicionando o jwplayer...");
+  var ifrm = document.createElement("iframe");
+  ifrm.setAttribute("id", "frame");
+  ifrm.setAttribute("src", "https://luiz-lp.github.io/crpiframeplayer/");
+  ifrm.setAttribute("width", "100%");
+  ifrm.setAttribute("height", "100%");
+  ifrm.setAttribute("frameborder", "0");
+  ifrm.setAttribute("scrolling", "no");
+  ifrm.setAttribute("allowfullscreen", "allowfullscreen");
+  ifrm.setAttribute("allow", "autoplay; encrypted-media *");
+
+  document.body.appendChild(ifrm)
+
+  ifrm.onload = function () {
+    playerInfo['version'] = '1.3.0';
+    playerInfo['noproxy'] = true;
+    playerInfo['beta'] = beta;
+    ifrm.contentWindow.postMessage(playerInfo, "*");
+  };
+}
+</script>
+</html>
+<!-- by heyo -->

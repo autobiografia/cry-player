@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "cloudflare-scraper": "^1.0.8",
+    "cloudscraper": "^4.6.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "puppeteer": "^18.0.5",
+    "request": "^2.88.2",
+    "unescape-json": "^1.0.3"
+  },
+  "name": "site-crunchyroll",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "autobiografia",
+  "license": "ISC",
+  "description": "Website to see CrY animes"
+}
