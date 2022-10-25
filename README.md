@@ -1,5 +1,6 @@
 
-# cry-player
+# Outdated - 25/10/2022
+## cry-player
 
 This project was made to watch crunchyroll videos.
 (BETA)
